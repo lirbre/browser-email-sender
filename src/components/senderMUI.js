@@ -24,7 +24,7 @@ const SenderMUI = () => {
 
     const textFieldStyle = {
         margin: '10px 0',
-        backgroundColor: '#fff',
+        backgroundColor: '#fff !important',
         borderRadius: "0"
     };
 
@@ -84,7 +84,10 @@ const SenderMUI = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={formik.touched.completeName && Boolean(formik.errors.completeName)}    
-                    label={Boolean(formik.errors.completeName) ? formik.errors.completeName : 'Input your full name'} 
+                    label={Boolean(formik.errors.completeName) ? formik.errors.completeName : 'Input your full name'}
+
+                    multiline
+                    maxRows={1}
 
                     style={textFieldStyle}
                     fullWidth={true}
@@ -99,6 +102,9 @@ const SenderMUI = () => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.userEmail && Boolean(formik.errors.userEmail)}    
                     label={Boolean(formik.errors.userEmail) ? formik.errors.userEmail : 'Input your email'} 
+
+                    multiline
+                    maxRows={1}
 
                     style={textFieldStyle}
                     fullWidth={true}

@@ -25,4 +25,3 @@ netlify.toml
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-sendmail.js
