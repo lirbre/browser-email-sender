@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 // Form control
 import { useFormik } from "formik";
@@ -8,7 +9,6 @@ import * as Yup from 'yup';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-import MailParser from './mailParser/mailParser';
 import './senderMUI.scss';
 
 const SenderMUI = () => {
@@ -49,8 +49,10 @@ const SenderMUI = () => {
             backgroundColor: 'yellow',
             color: '#020202',
         });
+
+        const PORT = process.env.PORT || 8888;
         
-        MailParser(text.data)
+        axios.post(`http://localhost:8888/sendmail`, text.data)
         .then(res => {
             formik.resetForm();
             setText({
@@ -66,7 +68,7 @@ const SenderMUI = () => {
                 ...animationStyle,
                 backgroundColor: 'green',
             });
-        }).catch((err) => {
+        }).catch(() => {
             setText({
                 button: 'Something goes wrong',
                 alert: 'Error. Please, try again.'
