@@ -23,78 +23,25 @@ const SenderMUI = () => {
     const [alertStyle, setAlertStyle] = useState({})
 
     const textFieldStyle = {
-        padding: '5px 0',
+        margin: '10px 0',
+        backgroundColor: '#fff',
+        borderRadius: "0"
     };
 
-    const animationStyle = {
-        '-webkit-transition': 'background-color 0.9s ease-out',
-        '-moz-transition': 'background-color 0.9s ease-out',
-        '-o-transition': 'background-color 0.9s ease-out',
-        transition: 'background-color 0.9s ease-out',
-    };
+    const sendMail = () => {  
+        let data = {
+            'name': formik.values.completeName,
+            'email': formik.values.userEmail,
+            'message': formik.values.userMessage
+        }
 
-    const sendMail = () => {
-        setText({
-            button: 'pending',
-            alert: '',
-            data: {
-                'name': formik.values.completeName,
-                'email': formik.values.userEmail,
-                'message': formik.values.userMessage
-            }
-        });
-        setButtonStyle({
-            ...buttonStyle,
-            ...animationStyle,
-            backgroundColor: 'yellow',
-            color: '#020202',
-        });
-
-        const PORT = process.env.PORT || 8888;
-        
-        axios.post(`http://localhost:8888/sendmail`, text.data)
-        .then(res => {
+        axios.post(`http://localhost:8888/sendmail`, data)
+        .then(response => {
             formik.resetForm();
-            setText({
-                button: 'sucess',
-                alert: 'Thank you for sending a message!'
-            })
-            setAlertStyle({
-                paddingTop: "0",
-                color: 'green'
-            });
-            setButtonStyle({    
-                ...buttonStyle,
-                ...animationStyle,
-                backgroundColor: 'green',
-            });
-        }).catch(() => {
-            setText({
-                button: 'Something goes wrong',
-                alert: 'Error. Please, try again.'
-            })
-            setAlertStyle({
-                paddingTop: "0",
-                color: 'red'
-            });
-            setButtonStyle({
-                ...buttonStyle,
-                ...animationStyle,
-                backgroundColor: 'red'
-            });
+            console.log(response)
+        }).catch((error) => {
+            console.log(error)
         });
-        setTimeout(() => {
-            setText({
-                button: 'Submit',
-                alert: ''
-            })
-            setAlertStyle({});
-            setButtonStyle({
-                ...animationStyle,
-                width: '65%',
-                margin: '15px auto 3vh'
-            });
-        }, 5000);
     };
 
     let SimpleSchema = Yup.object().shape({
@@ -122,7 +69,7 @@ const SenderMUI = () => {
 
     return (
         <div className="mui-wrapper">
-            <h1 style={{paddingBottom: '0px'}}>Simple mail sender</h1>
+            <h1>Simple mail sender</h1>
             <h3 style={alertStyle}>{text.alert}</h3>
             <form 
                 className="form-mui-wrapper"
@@ -131,7 +78,7 @@ const SenderMUI = () => {
                 <TextField 
                     name="completeName"
                     type="text"
-                    variant="standard"
+                    variant="outlined"
 
                     value={formik.values.completeName}
                     onChange={formik.handleChange}
@@ -145,7 +92,7 @@ const SenderMUI = () => {
                 <TextField 
                     name="userEmail"
                     type="email"
-                    variant="standard"
+                    variant="outlined"
                     
                     value={formik.values.userEmail}
                     onChange={formik.handleChange}
@@ -159,13 +106,13 @@ const SenderMUI = () => {
                 <TextField 
                     name="userMessage"
                     type="text"
-                    variant="standard"
+                    variant="outlined"
 
                     value={formik.values.userMessage}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={formik.touched.userMessage && Boolean(formik.errors.userMessage)}    
-                    label={Boolean(formik.errors.userMessage) ? formik.errors.userMessage : 'Input your message...'} 
+                    label={Boolean(formik.errors.userMessage) ? formik.errors.userMessage : 'Input your message'} 
 
                     multiline
                     minRows={8}
